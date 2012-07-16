@@ -7,7 +7,6 @@ namespace MinusEngine
     public class FolderResult
     {
         public FolderResult(String files, String viewCount, DateTime dateUpdated, String name, String creator, String url,
-                            String created, String[] itemOrdering, Int32 lastUpdatedAgo, Int32 createdAgo,
                             String thumbnailUrl, Int32 fileCount, Boolean isPublic, String id)
         {
             Files = files;
@@ -16,10 +15,6 @@ namespace MinusEngine
             Name = name;
             Creator = creator;
             URL = url;
-            Created = created;
-            ItemOrdering = itemOrdering;
-            LastUpdated = lastUpdatedAgo;
-            CreatedAgo = createdAgo;
             ThumbnailUrl = thumbnailUrl;
             FileCount = fileCount;
             IsPublic = isPublic;
@@ -46,18 +41,6 @@ namespace MinusEngine
         [JsonProperty("url")]
         public String URL { get; set; }
 
-        [JsonProperty("created")]
-        public String Created { get; set; }
-
-        [JsonProperty("item_ordering")]
-        public String[] ItemOrdering { get; set; }
-
-        [JsonProperty("last_updated_ago")]
-        public Int32 LastUpdated { get; set; }
-
-        [JsonProperty("created_ago")]
-        public Int32 CreatedAgo { get; set; }
-
         [JsonProperty("thumbnail_url")]
         public String ThumbnailUrl { get; set; }
 
@@ -83,9 +66,6 @@ namespace MinusEngine
                 .Append(", Name=").Append(Name)
                 .Append(", Creator=").Append(Creator)
                 .Append(", Url=").Append(URL)
-                .Append(", ItemOrder=").Append(ItemOrdering)
-                .Append(", LastUpdatedAgo=").Append(LastUpdated)
-                .Append(", CreatedAgo=").Append(CreatedAgo)
                 .Append(", ThumbnailUrl=").Append(ThumbnailUrl)
                 .Append(", FileCount=").Append(FileCount)
                 .Append(", IsPublic=").Append(IsPublic)

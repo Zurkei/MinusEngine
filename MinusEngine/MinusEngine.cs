@@ -110,7 +110,7 @@ namespace MinusEngine
     public class MinusEngine
     {
 
-        public static readonly String BASE_URL = "https://minus.com/";
+        public static readonly Uri BASE_URL = new Uri("https://minus.com/");
         public static readonly Uri AUTH_URL = new Uri(BASE_URL + "oauth/token");
         public static readonly Uri FOLDERS_URL = new Uri(BASE_URL + "api/v2/folders/");
         public static readonly Uri USERS_URL = new Uri(BASE_URL + "api/v2/users/");
@@ -213,6 +213,16 @@ namespace MinusEngine
 
         #region Authorization
 
+        /// <summary>
+        /// Authorizes the user's account to be used with APIv2.
+        /// </summary>
+        /// <param name="username">Username of the user logging in not the API enabled account.</param>
+        /// <param name="password">Password of the user logging in not the API enabled account.</param>
+        /// <param name="clientId">Key provided by Minus Staff for your API access.</param>
+        /// <param name="secret">Secret provided by Minus Staff for your API access.</param>
+        /// <param name="access">Scopes are used to restrict applications by the users.</param>
+        /// <returns>
+        /// oAuthResult
         public void oAuth(String username, String password, String clientId, String secret, String access)
         {
             StringBuilder data = new StringBuilder();
@@ -259,6 +269,16 @@ namespace MinusEngine
             };
         }
 
+        /// <summary>
+        /// Refreshes the user's account to be used with APIv2.
+        /// </summary>
+        /// <param name="clientId">Key provided by Minus Staff for your API access.</param>
+        /// <param name="secret">Secret provided by Minus Staff for your API access.</param>
+        ///<param name="refreshToken">Refresh Token provided by original oAuth.</param>
+        ///<param name="access">Scopes are used to restrict applications by the users.</param>
+        /// <returns>
+        /// oAuthResult
+        /// </returns>
         public void oAuthRefresh(String clientId, String secret, String refreshToken, String access)
         {
             StringBuilder data = new StringBuilder();
@@ -311,6 +331,15 @@ namespace MinusEngine
 
         #region Gets
 
+        /// <summary>
+        /// Gets information on a list of a specified user's folders.
+        /// </summary>
+        /// <param name="username">Username of the targeted user.</param>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <param name="pageNum">The page number of the user's folder list.</param>
+        /// <returns>
+        /// FolderResult
+        /// </returns>
         public void GetFolderList(String username, String accessToken, Int32 pageNum)
         {
             CookieAwareWebClient client = new CookieAwareWebClient();
@@ -360,6 +389,14 @@ namespace MinusEngine
             };
         }
 
+        /// <summary>
+        /// Gets information on a folder.
+        /// </summary>
+        /// <param name="folderID">Folder ID of the target folder.</param>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <returns>
+        /// FolderResult
+        /// </returns>
         public void GetFolder(String folderID, String accessToken)
         {
             CookieAwareWebClient client = new CookieAwareWebClient();
@@ -408,6 +445,16 @@ namespace MinusEngine
 
         #region Modify/Delete
 
+        /// <summary>
+        /// Modifies the name and/or item order of a folder.
+        /// </summary>
+        /// <param name="folderID">Folder ID of the target folder.</param>
+        /// <param name="name">The new name of the folder.</param>
+        /// <param name="itemOrdering">The new file order. ex. ["FileId1", "FileId2"]</param>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <returns>
+        /// FolderResult
+        /// </returns>
         public void ModifyFolder(String folderID, String name, String[] itemOrdering, String accessToken)
         {
             Uri folder = new Uri(FOLDERS_URL + folderID + "?bearer_token=" + accessToken);
@@ -455,6 +502,14 @@ namespace MinusEngine
             };
         }
 
+        /// <summary>
+        /// Deletes specified folder.
+        /// </summary>
+        /// <param name="folderID">Folder ID of the target folder.</param>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <returns>
+        /// HttpStatusCode
+        /// </returns>
         public void DeleteFolder(String folderID, String accessToken)
         {
             Uri folder = new Uri(FOLDERS_URL + folderID + "?bearer_token=" + accessToken);
@@ -499,6 +554,16 @@ namespace MinusEngine
 
         #region Create
 
+        /// <summary>
+        /// Creates a new folder.
+        /// </summary>
+        ///<param name="username">The slug of the active user.</param>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <param name="name">The new name of the folder.</param>
+        /// <param name="isPublic">Is the folder viewable to the public.</param>
+        /// <returns>
+        /// FolderResult
+        /// </returns>
         public void CreateFolder(String username, String accessToken, String name, Boolean isPublic)
         {
             CookieAwareWebClient client = new CookieAwareWebClient();
@@ -555,6 +620,14 @@ namespace MinusEngine
 
         #region Gets
 
+        /// <summary>
+        /// Gets information on a file.
+        /// </summary>
+        /// <param name="fileID">File ID of the target file.</param>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <returns>
+        /// FileResult
+        /// </returns>
         public void GetFile(String fileID, String accessToken)
         {
             CookieAwareWebClient client = new CookieAwareWebClient();
@@ -599,6 +672,15 @@ namespace MinusEngine
             };
         }
 
+        /// <summary>
+        /// Gets information on a list of a specified folder's files.
+        /// </summary>
+        /// <param name="folderID">Folder ID of the targeted folder.</param>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <param name="pageNum">The page number of the user's File list.</param>
+        /// <returns>
+        /// FileResult
+        /// </returns>
         public void GetFileList(String folderID, String accessToken, Int32 pageNum)
         {
             CookieAwareWebClient client = new CookieAwareWebClient();
@@ -653,6 +735,15 @@ namespace MinusEngine
 
         #region Modify/Delete
 
+        /// <summary>
+        /// Modifies the caption of a file.
+        /// </summary>
+        /// <param name="fileId">File Id of the target file.</param>
+        /// <param name="caption">The new caption of the file.</param>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <returns>
+        /// FileResult
+        /// </returns>
         public void ModifyFile(String fileId, String caption, String accessToken)
         {
             Uri file = new Uri(FILES_URL + fileId + "?bearer_token=" + accessToken);
@@ -700,6 +791,14 @@ namespace MinusEngine
             };
         }
 
+        /// <summary>
+        /// Deletes specified file.
+        /// </summary>
+        /// <param name="fileID">File ID of the target file.</param>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <returns>
+        /// HttpStatusCode
+        /// </returns>
         public void DeleteFile(String fileID, String accessToken)
         {
             Uri file = new Uri(FILES_URL + fileID + "?bearer_token=" + accessToken);
@@ -744,11 +843,30 @@ namespace MinusEngine
 
         #region Uploads
 
+        /// <summary>
+        /// Uploads an item (image) to a given folder
+        /// </summary>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <param name="folderId">Folder Id of the target folder.</param>
+        /// <param name="filePath">File location (full path) of the item to be uploaded.</param>
+        /// <returns>
+        /// FileResult
+        /// </returns>
         public void UploadItem(String accessToken, String folderId, String filePath)
         {
             UploadItem(accessToken, folderId, null, filePath);
         }
 
+        /// <summary>
+        /// Uploads an item (image) to a given folder
+        /// </summary>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <param name="folderId">Folder Id of the target folder.</param>
+        /// <param name="caption">Caption (description) to go with the item.</param>
+        /// <param name="filePath">File location (full path) of the item to be uploaded.</param>
+        /// <returns>
+        /// FileResult
+        /// </returns>
         public void UploadItem(String accessToken, String folderId, String caption, String filePath)
         {
             // Not worth checking for file existence or other stuff, as either Path.GetFileName or the upload
@@ -757,6 +875,17 @@ namespace MinusEngine
             UploadItem(accessToken, folderId, caption, filePath, data);
         }
 
+        /// <summary>
+        /// Uploads an item (image) to a given folder
+        /// </summary>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <param name="folderId">Folder Id of the target folder.</param>
+        /// <param name="caption">Caption (description) to go with the item.</param>
+        /// <param name="filePath">File location (full path) of the item to be uploaded.</param>
+        /// <param name="data">Stream data = new FileStream(filePath, FileMode.Open, FileAccess.Read);</param>
+        /// <returns>
+        /// FileResult
+        /// </returns>
         public void UploadItem(String accessToken, String folderId, String caption, String filePath, Stream data)
         {
             Uri upload = new Uri(FOLDERS_URL + folderId + "/files?bearer_token=" + accessToken);
@@ -862,6 +991,14 @@ namespace MinusEngine
 
         #region Gets
 
+        /// <summary>
+        /// Gets information on a user.
+        /// </summary>
+        /// <param name="username">Slug of the target user.</param>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <returns>
+        /// UserResult
+        /// </returns>
         public  void GetUser(String username, String accessToken)
         {
             CookieAwareWebClient client = new CookieAwareWebClient();
@@ -906,6 +1043,15 @@ namespace MinusEngine
             };
         }
 
+        /// <summary>
+        /// Gets information on a list of a specified user's Followers List.
+        /// </summary>
+        /// <param name="username">Slug of the target user.</param>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <param name="pageNum">The page number of the users Followers list.</param>
+        /// <returns>
+        /// UserResult
+        /// </returns>
         public void GetFollowers(String username, String accessToken, Int32 pageNum)
         {
             CookieAwareWebClient client = new CookieAwareWebClient();
@@ -956,6 +1102,15 @@ namespace MinusEngine
             };
         }
 
+        /// <summary>
+        /// Gets information on a list of a specified user's Following List.
+        /// </summary>
+        /// <param name="username">Slug of the target user.</param>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <param name="pageNum">The page number of the users Following list.</param>
+        /// <returns>
+        /// UserResult
+        /// </returns>
         public void GetFollowing(String username, String accessToken, Int32 pageNum)
         {
             CookieAwareWebClient client = new CookieAwareWebClient();
@@ -1009,7 +1164,16 @@ namespace MinusEngine
 
         #region Add
 
-        public void AddFollowee(String username, String accessToken, String followee)
+        /// <summary>
+        /// Starts following a specified user.
+        /// </summary>
+        /// <param name="username">Slug of the active user.</param>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <param name="target">Slug of the target user.</param>
+        /// <returns>
+        /// UserResult
+        /// </returns>
+        public void AddFollowee(String username, String accessToken, String target)
         {
             CookieAwareWebClient client = new CookieAwareWebClient();
             client.Headers["Content-Type"] = "application/x-www-form-urlencoded";
@@ -1018,7 +1182,7 @@ namespace MinusEngine
 
             Uri getFollowing = new Uri(USERS_URL + username + "/following?bearer_token=" + accessToken);
 
-            data.Append("slug=" + followee);
+            data.Append("slug=" + target);
 
             try
             {
@@ -1065,6 +1229,13 @@ namespace MinusEngine
 
         #region Gets
 
+        /// <summary>
+        /// Get message thread of the last message.
+        /// </summary>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <returns>
+        /// MessageResult
+        /// </returns>
         public void GetLastMessage(String accessToken)
         {
             CookieAwareWebClient client = new CookieAwareWebClient();
@@ -1113,6 +1284,15 @@ namespace MinusEngine
             };
         }
 
+        /// <summary>
+        /// Get message thread between specified user.
+        /// </summary>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <param name="target">Slug of the target user.</param>
+        /// <param name="pageNum">The page number of the user's message thread.</param>
+        /// <returns>
+        /// MessageResult
+        /// </returns>
         public void GetMessage(String accessToken, String target, Int32 pageNum)
         {
             CookieAwareWebClient client = new CookieAwareWebClient();
@@ -1165,6 +1345,15 @@ namespace MinusEngine
 
         #region Send
 
+        /// <summary>
+        /// Sends a message to a specified user.
+        /// </summary>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <param name="target">Slug of the target user.</param>
+        /// <param name="message">The message to be sent.</param>
+        /// <returns>
+        /// MessageResult
+        /// </returns>
         public void SendMessage(String accessToken, String target, String message)
         {
             CookieAwareWebClient client = new CookieAwareWebClient();
@@ -1217,6 +1406,14 @@ namespace MinusEngine
 
         #region Feeds
 
+        /// <summary>
+        /// Gets information on the active user's Folder Feed.
+        /// </summary>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <param name="pageNum">The page number of the user's Folder Feed.</param>
+        /// <returns>
+        /// ExtendedFolderResult
+        /// </returns>
         public void GetFolderFeed(String accessToken, Int32 pageNum)
         {
             CookieAwareWebClient client = new CookieAwareWebClient();
@@ -1267,6 +1464,14 @@ namespace MinusEngine
             };
         }
 
+        /// <summary>
+        /// Gets information on the active user's Mine Feed.
+        /// </summary>
+        /// <param name="accessToken">Access Token provided by oAuthResult.</param>
+        /// <param name="pageNum">The page number of the user's Mine Feed.</param>
+        /// <returns>
+        /// ExtendedFolderResult
+        /// </returns>
         public void GetMineFeed(String accessToken, Int32 pageNum)
         {
             CookieAwareWebClient client = new CookieAwareWebClient();
